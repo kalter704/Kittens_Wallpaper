@@ -55,10 +55,14 @@ public class MainActivity extends FragmentActivity {
     Animation animAlphaVilible;
     Animation animAlphaInvilible;
 
+    PremiumWallpaper premiumWallpaper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        premiumWallpaper = new PremiumWallpaper(this, Wallpapers.images.length - 3, Wallpapers.images.length - 2, Wallpapers.images.length - 1);
 
         countOfSwipedPages = 0;
         numberOfSwipedPages = Wallpapers.images.length - 1;
@@ -213,10 +217,28 @@ public class MainActivity extends FragmentActivity {
         pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i2) {
+                //Toast.makeText(getApplicationContext(), "i = " + String.valueOf(i) + " v = " + String.valueOf(v) + " i2 = " + String.valueOf(i2), Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onPageSelected(int i) {
+                //Toast.makeText(getApplicationContext(), "i = " + String.valueOf(i), Toast.LENGTH_SHORT).show();
+                if(premiumWallpaper.equals(i)) {
+                    if(premiumWallpaper.getStateByNumber(i) == PremiumWallpaper.OPENED_PREMIUM_WALLPAPER) {
+                        buttonSetEnabled(btnSetWallPaper, true);
+                    } else {
+                        buttonSetEnabled(btnSetWallPaper, false);
+                    }
+                } else {
+                    buttonSetEnabled(btnSetWallPaper, true);
+                }
+                /*
+                if(i == 2) {
+                    buttonSetEnabled(btnSetWallPaper, false);
+                } else {
+                    buttonSetEnabled(btnSetWallPaper, true);
+                }
+                */
                 if (isShowFullscreenAds) {
                     isShowFullscreenAds = false;
                     countOfSwipedPages = 0;
@@ -232,6 +254,7 @@ public class MainActivity extends FragmentActivity {
 
             @Override
             public void onPageScrollStateChanged(int i) {
+                //Toast.makeText(getApplicationContext(), "i = " + String.valueOf(i), Toast.LENGTH_SHORT).show();
             }
 
         });
@@ -261,7 +284,10 @@ public class MainActivity extends FragmentActivity {
     }
 
     private AdRequest getRequestForAds() {
-        return new AdRequest.Builder().build();
+
+        //return new AdRequest.Builder().build();
+
+
         // EMULATOR
         /*
         return new AdRequest.Builder()
@@ -270,11 +296,11 @@ public class MainActivity extends FragmentActivity {
                 .build();
         */
         // Highscreen ICE 2
-/*
+
         return new AdRequest.Builder()
                 .addTestDevice("3E0DC5B8245C21520131AB58878FDCE7")
                 .build();
-*/
+
         // HUAWEI
         /*
         return new AdRequest.Builder()
@@ -337,6 +363,11 @@ public class MainActivity extends FragmentActivity {
 
         @Override
         public Fragment getItem(int i) {
+            if(premiumWallpaper.equals(i)) {
+                if (premiumWallpaper.getStateByNumber(i) == PremiumWallpaper.CLOSED_PREMIUM_WALLPAPER) {
+                    return PageFragmentWithPremiumWallpaper.newInstance(images[i]);
+                }
+            }
             return PageFragment.newInstance(images[i]);
         }
 
@@ -379,7 +410,15 @@ public class MainActivity extends FragmentActivity {
             super.onPostExecute(param);
 
             //buttonSetEnabled(btnExit, true);
-            buttonSetEnabled(btnSetWallPaper, true);
+            if(premiumWallpaper.equals(pager.getCurrentItem())) {
+                if(premiumWallpaper.getStateByNumber(pager.getCurrentItem()) == PremiumWallpaper.OPENED_PREMIUM_WALLPAPER) {
+                    buttonSetEnabled(btnSetWallPaper, true);
+                } else {
+                    buttonSetEnabled(btnSetWallPaper, false);
+                }
+            } else {
+                buttonSetEnabled(btnSetWallPaper, true);
+            }
             linImg.startAnimation(animAlphaInvilible);
 
             Context context = getApplicationContext();
