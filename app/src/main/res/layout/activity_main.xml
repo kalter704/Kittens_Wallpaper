@@ -9,7 +9,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.aleksandr.nikitin.iron_man_wallpaper_tbr.MainActivity">
+    tools:context="com.aleksandr.nikitin.kittens_wallpaper.MainActivity">
 
 
     <android.support.v4.view.ViewPager
@@ -45,26 +45,26 @@
         ads:adSize="BANNER"
         ads:adUnitId="@string/banner_ad_unit_id"></com.google.android.gms.ads.AdView>
 
-<!--
-    <ImageButton
-        android:id="@+id/btnExitFromMyApp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right|top"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="15dp"
-        android:background="@drawable/btn_bg"
-        android:padding="10dp"
-        android:src="@drawable/btn_close" />
--->
-<!--
-    <Button
-        android:id="@+id/btnFix"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="left|center_vertical"
-        android:text="New Button" />
-        -->
+    <!--
+        <ImageButton
+            android:id="@+id/btnExitFromMyApp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|top"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/btn_bg"
+            android:padding="10dp"
+            android:src="@drawable/btn_close" />
+    -->
+    <!--
+        <Button
+            android:id="@+id/btnFix"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center_vertical"
+            android:text="New Button" />
+            -->
     <!--
     <Button
         android:id="@+id/btnFluid2"
@@ -101,6 +101,9 @@
             android:visibility="invisible" />
 
     </LinearLayout>
+
+
+
 
 
 </FrameLayout>

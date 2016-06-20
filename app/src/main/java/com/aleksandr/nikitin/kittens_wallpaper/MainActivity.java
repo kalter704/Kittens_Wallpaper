@@ -20,6 +20,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -48,12 +49,15 @@ public class MainActivity extends FragmentActivity {
 
     ViewPager pager;
     PagerAdapter pagerAdapter;
+    boolean isPagerWithShadow;
 
     LinearLayout linImg;
     ImageView img;
     Animation animRotate;
     Animation animAlphaVilible;
     Animation animAlphaInvilible;
+    Animation animFadeIn;
+    Animation animFadeOut;
 
     PremiumWallpaper premiumWallpaper;
 
@@ -74,6 +78,8 @@ public class MainActivity extends FragmentActivity {
         animRotate = AnimationUtils.loadAnimation(this, R.anim.rotation_proccess);
         animAlphaVilible = AnimationUtils.loadAnimation(this, R.anim.alpha_vilible);
         animAlphaInvilible = AnimationUtils.loadAnimation(this, R.anim.alpha_invilible);
+        animFadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in);
+        animFadeOut = AnimationUtils.loadAnimation(this, R.anim.fade_out);
 
         animAlphaVilible.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -102,6 +108,46 @@ public class MainActivity extends FragmentActivity {
             public void onAnimationEnd(Animation animation) {
                 linImg.setVisibility(View.INVISIBLE);
                 img.clearAnimation();
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
+        animFadeIn.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                Log.d("QWERTY", "animFadeIn onAnimationEnd");
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                    pager.setAlpha((float) 1.0);
+                }
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
+        animFadeOut.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                Log.d("QWERTY", "animFadeOut onAnimationEnd");
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                    pager.setAlpha((float) 0.3);
+                }
             }
 
             @Override
@@ -198,6 +244,13 @@ public class MainActivity extends FragmentActivity {
         btnSetWallPaper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /*
+                Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), android.R.anim.fade_out);
+                LayoutAnimationController aaa = AnimationUtils.loadLayoutAnimation(getApplicationContext(), android.R.anim.fade_out);
+                pager.setAnimation(aaa.getAnimation());
+                pager.setLayoutAnimation(aaa);
+                */
+
                 (new setWallpaperAsyncTask()).execute();
             }
         });
@@ -210,6 +263,7 @@ public class MainActivity extends FragmentActivity {
             }
         });
 */
+        isPagerWithShadow = false;
         pager = (ViewPager) findViewById(R.id.viewPager);
         pagerAdapter = new MyFragmentPageAdapter(getSupportFragmentManager());
         pager.setAdapter(pagerAdapter);
@@ -226,12 +280,29 @@ public class MainActivity extends FragmentActivity {
                 if(premiumWallpaper.equals(i)) {
                     if(premiumWallpaper.getStateByNumber(i) == PremiumWallpaper.OPENED_PREMIUM_WALLPAPER) {
                         buttonSetEnabled(btnSetWallPaper, true);
+                        //buttonSetEnabled(pager, true);
+                        setShadowForPager(false);
                     } else {
                         buttonSetEnabled(btnSetWallPaper, false);
+                        //buttonSetEnabled(findViewById(R.id.linearLayoutWithViewPager), false);
+                        //buttonSetEnabled(pager, false);
+                        /*
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                            pager.setAlpha((float) 0.1);
+                            Toast.makeText(getApplicationContext(), "asefasefsef", Toast.LENGTH_SHORT).show();
+                        }
+                        */
+
+                        setShadowForPager(true);
                     }
                 } else {
                     buttonSetEnabled(btnSetWallPaper, true);
+                    setShadowForPager(false);
+                    //buttonSetEnabled(pager, true);
                 }
+
+
+
                 /*
                 if(i == 2) {
                     buttonSetEnabled(btnSetWallPaper, false);
@@ -277,6 +348,23 @@ public class MainActivity extends FragmentActivity {
             }
         });
 
+
+    }
+
+    private void setShadowForPager(boolean isShadow) {
+        Log.d("QWERTY", "setShadowForPager");
+        Log.d("QWERTY", "isShadow = " + String.valueOf(isShadow));
+        Log.d("QWERTY", "isPagerWithShadow = " + String.valueOf(isPagerWithShadow));
+        if(isShadow != isPagerWithShadow) {
+            isPagerWithShadow = isShadow;
+            if(isShadow == false) {
+                pager.setAnimation(animFadeIn);
+                Log.d("QWERTY", "ViewPager = in not shadow");
+            } else {
+                pager.setAnimation(animFadeOut);
+                Log.d("QWERTY", "ViewPager = in shadow");
+            }
+        }
     }
 
     private void requestNewInterstitial() {
@@ -347,10 +435,7 @@ public class MainActivity extends FragmentActivity {
             }
 
         }
-
-
     }
-
 
     private class MyFragmentPageAdapter extends FragmentPagerAdapter {
 
@@ -363,11 +448,6 @@ public class MainActivity extends FragmentActivity {
 
         @Override
         public Fragment getItem(int i) {
-            if(premiumWallpaper.equals(i)) {
-                if (premiumWallpaper.getStateByNumber(i) == PremiumWallpaper.CLOSED_PREMIUM_WALLPAPER) {
-                    return PageFragmentWithPremiumWallpaper.newInstance(images[i]);
-                }
-            }
             return PageFragment.newInstance(images[i]);
         }
 
@@ -441,7 +521,7 @@ public class MainActivity extends FragmentActivity {
             if (enabled == true) {
                 view.setAlpha((float) 1.0);
             } else {
-                view.setAlpha((float) 0.5);
+                view.setAlpha((float) 0.4);
             }
         }
         view.setEnabled(enabled);

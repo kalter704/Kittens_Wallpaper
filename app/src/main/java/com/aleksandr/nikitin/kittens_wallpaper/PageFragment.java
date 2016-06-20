@@ -2,6 +2,7 @@ package com.aleksandr.nikitin.kittens_wallpaper;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,6 @@ public class PageFragment extends Fragment {
     int imageId;
 
     static Fragment newInstance(int image) {
-
         PageFragment pageFragment = new PageFragment();
         Bundle arguments =  new Bundle();
         arguments.putInt(ARGUMENT_IMAGE_ID, image);
@@ -37,6 +37,8 @@ public class PageFragment extends Fragment {
 
         ImageView imageView = (ImageView) view.findViewById(R.id.imgView);
         imageView.setImageResource(imageId);
+
+        //Log.d("QWERTY", "qwfawd12341");
 
         /*
         DisplayMetrics metrics = new DisplayMetrics();

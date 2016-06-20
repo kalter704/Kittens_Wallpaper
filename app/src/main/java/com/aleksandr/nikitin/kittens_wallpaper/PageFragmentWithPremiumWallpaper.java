@@ -1,12 +1,16 @@
 package com.aleksandr.nikitin.kittens_wallpaper;
 
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 public class PageFragmentWithPremiumWallpaper extends Fragment {
     static final String ARGUMENT_IMAGE_ID = "arg_image_id";
@@ -38,8 +42,11 @@ public class PageFragmentWithPremiumWallpaper extends Fragment {
         imageView.setImageResource(imageId);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            imageView.setAlpha((float) 0.5);
+            //imageView.setAlpha((float) 0.1);
+            view.setAlpha((float) 0.1);
         }
+
+        Log.d("QWERTY", "qwfawd!!!!!!!!!!");
 
         /*
         DisplayMetrics metrics = new DisplayMetrics();
