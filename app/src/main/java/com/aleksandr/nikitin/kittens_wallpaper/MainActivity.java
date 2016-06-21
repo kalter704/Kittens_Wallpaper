@@ -2,31 +2,32 @@ package com.aleksandr.nikitin.kittens_wallpaper;
 
 import android.app.WallpaperManager;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.LayoutAnimationController;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+//import com.aleksandr.nikitin.kittens_wallpaper.PageFragment;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -36,6 +37,10 @@ import com.google.android.gms.ads.MobileAds;
 import java.io.IOException;
 
 public class MainActivity extends FragmentActivity {
+
+    private final String CURRENT_PAGE = "current_page";
+
+    int currentPage;
 
     int countOfSwipedPages;
     int numberOfSwipedPages;
@@ -49,15 +54,15 @@ public class MainActivity extends FragmentActivity {
 
     ViewPager pager;
     PagerAdapter pagerAdapter;
-    boolean isPagerWithShadow;
+    //boolean isPagerWithShadow;
 
     LinearLayout linImg;
     ImageView img;
     Animation animRotate;
     Animation animAlphaVilible;
     Animation animAlphaInvilible;
-    Animation animFadeIn;
-    Animation animFadeOut;
+    //Animation animFadeIn;
+    //Animation animFadeOut;
 
     PremiumWallpaper premiumWallpaper;
 
@@ -65,6 +70,9 @@ public class MainActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        SharedPreferences sPref = PreferenceManager.getDefaultSharedPreferences(this);
+        currentPage = sPref.getInt(CURRENT_PAGE, 0);
 
         premiumWallpaper = new PremiumWallpaper(this, Wallpapers.images.length - 3, Wallpapers.images.length - 2, Wallpapers.images.length - 1);
 
@@ -78,8 +86,8 @@ public class MainActivity extends FragmentActivity {
         animRotate = AnimationUtils.loadAnimation(this, R.anim.rotation_proccess);
         animAlphaVilible = AnimationUtils.loadAnimation(this, R.anim.alpha_vilible);
         animAlphaInvilible = AnimationUtils.loadAnimation(this, R.anim.alpha_invilible);
-        animFadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in);
-        animFadeOut = AnimationUtils.loadAnimation(this, R.anim.fade_out);
+        //animFadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in);
+        //animFadeOut = AnimationUtils.loadAnimation(this, R.anim.fade_out);
 
         animAlphaVilible.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -116,6 +124,7 @@ public class MainActivity extends FragmentActivity {
             }
         });
 
+        /*
         animFadeIn.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -157,6 +166,7 @@ public class MainActivity extends FragmentActivity {
 
             }
         });
+        */
 
         //img.startAnimation(animation);
 
@@ -258,7 +268,7 @@ public class MainActivity extends FragmentActivity {
             }
         });
 */
-        isPagerWithShadow = false;
+        //isPagerWithShadow = false;
         pager = (ViewPager) findViewById(R.id.viewPager);
         pagerAdapter = new MyFragmentPageAdapter(getSupportFragmentManager());
         pager.setAdapter(pagerAdapter);
@@ -276,7 +286,7 @@ public class MainActivity extends FragmentActivity {
                     if(premiumWallpaper.getStateByNumber(i) == PremiumWallpaper.OPENED_PREMIUM_WALLPAPER) {
                         buttonSetEnabled(btnSetWallPaper, true);
                         //buttonSetEnabled(pager, true);
-                        setShadowForPager(false);
+                        //setShadowForPager(false);
                     } else {
                         buttonSetEnabled(btnSetWallPaper, false);
                         //buttonSetEnabled(findViewById(R.id.linearLayoutWithViewPager), false);
@@ -288,11 +298,11 @@ public class MainActivity extends FragmentActivity {
                         }
                         */
 
-                        setShadowForPager(true);
+                        //setShadowForPager(true);
                     }
                 } else {
                     buttonSetEnabled(btnSetWallPaper, true);
-                    setShadowForPager(false);
+                    //setShadowForPager(false);
                     //buttonSetEnabled(pager, true);
                 }
 
@@ -346,6 +356,28 @@ public class MainActivity extends FragmentActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        pager.setCurrentItem(currentPage);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        currentPage = pager.getCurrentItem();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        SharedPreferences sPref = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor ed =  sPref.edit();
+        ed.putInt(CURRENT_PAGE, pager.getCurrentItem());
+        ed.commit();
+    }
+
+    /*
     private void setShadowForPager(boolean isShadow) {
         Log.d("QWERTY", "setShadowForPager");
         Log.d("QWERTY", "isShadow = " + String.valueOf(isShadow));
@@ -363,6 +395,7 @@ public class MainActivity extends FragmentActivity {
             }
         }
     }
+    */
 
     private void requestNewInterstitial() {
         mInterstitialAd.loadAd(getRequestForAds());
@@ -445,6 +478,9 @@ public class MainActivity extends FragmentActivity {
 
         @Override
         public Fragment getItem(int i) {
+            if(premiumWallpaper.getStateByNumber(i) == PremiumWallpaper.CLOSED_PREMIUM_WALLPAPER) {
+                return PageFragmentWithPremiumWallpaper.newInstance(images[i], i);
+            }
             return PageFragment.newInstance(images[i]);
         }
 

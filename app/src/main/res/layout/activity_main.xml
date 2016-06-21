@@ -20,6 +20,14 @@
 
     <Button
         android:id="@+id/btnSetWallpaper"
+        style="@style/btn_style"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_marginBottom="70dp"
+        android:text="@string/set_wallpaper" />
+
+    <!--
+    <Button
+        android:id="@+id/btnSetWallpaper"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|bottom"
@@ -33,6 +41,7 @@
         android:text="@string/set_wallpaper"
         android:textColor="@color/colorWhite"
         android:textStyle="normal" />
+        -->
 
 
     <com.google.android.gms.ads.AdView
@@ -101,9 +110,6 @@
             android:visibility="invisible" />
 
     </LinearLayout>
-
-
-
 
 
 </FrameLayout>

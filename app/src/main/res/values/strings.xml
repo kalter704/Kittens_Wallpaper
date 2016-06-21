@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">Pretty kittens Wallpaper</string>
+    <string name="app_name">Pretty kittens Wallpaper</string>
 
     <string name="id_app_in_admob" translatable="false">ca-app-pub-9590734892113562~3127396935</string>
     <string name="banner_ad_unit_id" translatable="false">ca-app-pub-9590734892113562/7557596534</string>
@@ -7,5 +7,7 @@
 
     <string name="set_wallpaper">Set</string>
     <string name="successful_set_wallpaper">Wallpapers successfully installed!</string>
+    <string name="watch">Watch</string>
+    <string name="text_for_watch_video">To get the picture look video</string>
 </resources>
 

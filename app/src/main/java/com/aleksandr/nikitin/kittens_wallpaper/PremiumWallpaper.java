@@ -10,6 +10,7 @@ public class PremiumWallpaper {
 
     private SharedPreferences sPref;
 
+    public static final int NOT_PREMIUM_WALLPAPER = 0;
     public static final int OPENED_PREMIUM_WALLPAPER = 1;
     public static final int CLOSED_PREMIUM_WALLPAPER = 2;
 
@@ -32,7 +33,6 @@ public class PremiumWallpaper {
         PremiumWallpaper.firstPremiumWallpaper = firstPremiumWallpaper;
         PremiumWallpaper.secondPremiumWallpaper = secondPremiumWallpaper;
         PremiumWallpaper.thirdPremiumWallpaper = thirdPremiumWallpaper;
-
 
         sPref = PreferenceManager.getDefaultSharedPreferences(context);
         stateFirstPremiumWallpaper = sPref.getInt(STATE_FIRST_PREMIUM_WALLPAPER, CLOSED_PREMIUM_WALLPAPER);
@@ -80,7 +80,7 @@ public class PremiumWallpaper {
         } else if(i == thirdPremiumWallpaper) {
             return getStateThirdPremiumWallpaper();
         } else {
-            return 0;
+            return NOT_PREMIUM_WALLPAPER;
         }
     }
 

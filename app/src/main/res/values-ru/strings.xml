@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">Милые котята Обои</string>
+
     <string name="set_wallpaper">Установить</string>
     <string name="successful_set_wallpaper">Обои успешно установлены!</string>
+    <string name="watch">Смотреть</string>
+    <string name="text_for_watch_video">Чтобы получить картинку посмотрите видео</string>
 </resources>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/RelativeLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,23 +11,51 @@
         android:layout_height="match_parent"
         android:scaleType="fitXY"></ImageView>
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center">
+    <LinearLayout
+        android:id="@+id/linLayoutWithTextAndBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:orientation="vertical"
+        <TextView
+            android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center">
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="30dp"
+            android:gravity="center"
+            android:text="@string/text_for_watch_video"
+            android:textColor="@color/colorWhite"
+            android:textSize="20sp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Мой текст"
-                android:id="@+id/textView" />
-        </LinearLayout>
-    </FrameLayout>
+        <Button
+            android:id="@+id/btnWatchVideo"
+            style="@style/btn_style"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/watch" />
+    </LinearLayout>
 
-</FrameLayout>
+    <LinearLayout
+        android:id="@+id/linImg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="70dp"
+        android:orientation="vertical"
+        android:visibility="invisible">
+
+        <ImageView
+            android:id="@+id/imageRotate"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:src="@drawable/rotating_arrow_1"
+            android:visibility="invisible" />
+
+    </LinearLayout>
+
+</RelativeLayout>
