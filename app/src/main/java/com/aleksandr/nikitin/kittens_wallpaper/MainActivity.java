@@ -128,6 +128,7 @@ public class MainActivity extends FragmentActivity {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
                     pager.setAlpha((float) 1.0);
                 }
+                img.clearAnimation();
             }
 
             @Override
@@ -148,6 +149,7 @@ public class MainActivity extends FragmentActivity {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
                     pager.setAlpha((float) 0.3);
                 }
+                img.clearAnimation();
             }
 
             @Override
@@ -244,13 +246,6 @@ public class MainActivity extends FragmentActivity {
         btnSetWallPaper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*
-                Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), android.R.anim.fade_out);
-                LayoutAnimationController aaa = AnimationUtils.loadLayoutAnimation(getApplicationContext(), android.R.anim.fade_out);
-                pager.setAnimation(aaa.getAnimation());
-                pager.setLayoutAnimation(aaa);
-                */
-
                 (new setWallpaperAsyncTask()).execute();
             }
         });
@@ -356,13 +351,15 @@ public class MainActivity extends FragmentActivity {
         Log.d("QWERTY", "isShadow = " + String.valueOf(isShadow));
         Log.d("QWERTY", "isPagerWithShadow = " + String.valueOf(isPagerWithShadow));
         if(isShadow != isPagerWithShadow) {
+            //pager.clearAnimation();
             isPagerWithShadow = isShadow;
-            if(isShadow == false) {
-                pager.setAnimation(animFadeIn);
-                Log.d("QWERTY", "ViewPager = in not shadow");
+            if(!isShadow) {
+                pager.startAnimation(animFadeIn);
+                Log.d("QWERTY", "ViewPager = do not shadow");
             } else {
-                pager.setAnimation(animFadeOut);
-                Log.d("QWERTY", "ViewPager = in shadow");
+                pager.startAnimation(animFadeOut);
+                //pager.setAnimation(animFadeIn);
+                Log.d("QWERTY", "ViewPager = do shadow");
             }
         }
     }
