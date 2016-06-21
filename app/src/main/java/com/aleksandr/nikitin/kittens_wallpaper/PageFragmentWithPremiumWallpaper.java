@@ -1,5 +1,6 @@
 package com.aleksandr.nikitin.kittens_wallpaper;
 
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,6 +17,7 @@ import android.widget.LinearLayout;
 public class PageFragmentWithPremiumWallpaper extends Fragment {
     static final String ARGUMENT_IMAGE_ID = "arg_image_id";
     static final String ARGUMENT_IMAGE_NUMBER = "arg_image_number";
+    static final String ARGUMENT_SET_BUTTON = "arg_set_button";
     int imageId;
     int numberOfImg;
 
@@ -27,15 +29,15 @@ public class PageFragmentWithPremiumWallpaper extends Fragment {
     Animation animAlphaVilible;
     Animation animAlphaInvilible;
 
-    static Fragment newInstance(int image, int number) {
+    onShowVideoAdListener showVideoAdListener;
 
+    static Fragment newInstance(int image, int number) {
         PageFragmentWithPremiumWallpaper pageFragment = new PageFragmentWithPremiumWallpaper();
-        Bundle arguments =  new Bundle();
+        Bundle arguments = new Bundle();
         arguments.putInt(ARGUMENT_IMAGE_ID, image);
         arguments.putInt(ARGUMENT_IMAGE_NUMBER, number);
         pageFragment.setArguments(arguments);
         return pageFragment;
-
     }
 
     @Override
@@ -107,6 +109,7 @@ public class PageFragmentWithPremiumWallpaper extends Fragment {
             public void onClick(View view) {
                 linLayoutWithTextAndBtn.setVisibility(View.INVISIBLE);
                 linImg.startAnimation(animAlphaVilible);
+                showVideoAdListener.onShowVideoAd(numberOfImg);
             }
         });
 
@@ -114,4 +117,19 @@ public class PageFragmentWithPremiumWallpaper extends Fragment {
         return view;
 
     }
+
+    public interface onShowVideoAdListener {
+        public void onShowVideoAd(int i);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            showVideoAdListener = (onShowVideoAdListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + " must implement onSomeEventListener");
+        }
+    }
+
 }

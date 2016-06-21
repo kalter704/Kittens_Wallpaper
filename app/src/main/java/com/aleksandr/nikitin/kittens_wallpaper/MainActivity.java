@@ -27,44 +27,48 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-//import com.aleksandr.nikitin.kittens_wallpaper.PageFragment;
+import com.aleksandr.nikitin.kittens_wallpaper.PageFragmentWithPremiumWallpaper.onShowVideoAdListener;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.reward.RewardItem;
+import com.google.android.gms.ads.reward.RewardedVideoAd;
+import com.google.android.gms.ads.reward.RewardedVideoAdListener;
 
 import java.io.IOException;
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends FragmentActivity implements onShowVideoAdListener {
 
     private final String CURRENT_PAGE = "current_page";
 
-    int currentPage;
+    private int currentPage;
 
-    int countOfSwipedPages;
-    int numberOfSwipedPages;
-    boolean isShowFullscreenAds;
-    boolean isDoNewRequestForInterstitial;
+    private int countOfSwipedPages;
+    private int numberOfSwipedPages;
+    private boolean isShowFullscreenAds;
+    private boolean isDoNewRequestForInterstitial;
 
-    InterstitialAd mInterstitialAd;
+    private InterstitialAd mInterstitialAd;
+    private RewardedVideoAd mRewardedVideoAd;
 
-    Button btnSetWallPaper;
-    ImageButton btnExit;
+    private Button btnSetWallPaper;
+    private ImageButton btnExit;
 
-    ViewPager pager;
-    PagerAdapter pagerAdapter;
+    private ViewPager pager;
+    private PagerAdapter pagerAdapter;
     //boolean isPagerWithShadow;
 
-    LinearLayout linImg;
-    ImageView img;
-    Animation animRotate;
-    Animation animAlphaVilible;
-    Animation animAlphaInvilible;
+    private LinearLayout linImg;
+    private ImageView img;
+    private Animation animRotate;
+    private Animation animAlphaVilible;
+    private Animation animAlphaInvilible;
     //Animation animFadeIn;
     //Animation animFadeOut;
 
-    PremiumWallpaper premiumWallpaper;
+    private PremiumWallpaper premiumWallpaper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -353,24 +357,68 @@ public class MainActivity extends FragmentActivity {
             }
         });
 
+        mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(this);
+        mRewardedVideoAd.setRewardedVideoAdListener(new RewardedVideoAdListener() {
+            @Override
+            public void onRewarded(RewardItem reward) {
+                Toast.makeText(getApplicationContext(), "onRewarded! currency: " + reward.getType() + "  amount: " +
+                        reward.getAmount(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onRewardedVideoAdLeftApplication() {
+                Toast.makeText(getApplicationContext(), "onRewardedVideoAdLeftApplication",
+                        Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onRewardedVideoAdClosed() {
+                Toast.makeText(getApplicationContext(), "onRewardedVideoAdClosed", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onRewardedVideoAdFailedToLoad(int errorCode) {
+                Toast.makeText(getApplicationContext(), "onRewardedVideoAdFailedToLoad", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onRewardedVideoAdLoaded() {
+                Toast.makeText(getApplicationContext(), "onRewardedVideoAdLoaded", Toast.LENGTH_SHORT).show();
+                mRewardedVideoAd.show();
+            }
+
+            @Override
+            public void onRewardedVideoAdOpened() {
+                Toast.makeText(getApplicationContext(), "onRewardedVideoAdOpened", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onRewardedVideoStarted() {
+                Toast.makeText(getApplicationContext(), "onRewardedVideoStarted", Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        mRewardedVideoAd.resume(this);
         pager.setCurrentItem(currentPage);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        mRewardedVideoAd.pause(this);
         currentPage = pager.getCurrentItem();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        mRewardedVideoAd.destroy(this);
         SharedPreferences sPref = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor ed =  sPref.edit();
         ed.putInt(CURRENT_PAGE, pager.getCurrentItem());
@@ -399,6 +447,10 @@ public class MainActivity extends FragmentActivity {
 
     private void requestNewInterstitial() {
         mInterstitialAd.loadAd(getRequestForAds());
+    }
+
+    private void requestNewRewardedVideoAd() {
+        mRewardedVideoAd.loadAd(getString(R.string.video_ad_unit_id), getRequestForAds());
     }
 
     private AdRequest getRequestForAds() {
@@ -465,6 +517,13 @@ public class MainActivity extends FragmentActivity {
             }
 
         }
+    }
+
+    @Override
+    public void onShowVideoAd(int i) {
+        pager.setEnabled(false);   // ????????????????????????/
+        requestNewRewardedVideoAd();
+        //buttonSetEnabled(btnSetWallPaper, true);
     }
 
     private class MyFragmentPageAdapter extends FragmentPagerAdapter {

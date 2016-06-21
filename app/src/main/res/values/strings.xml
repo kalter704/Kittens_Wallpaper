@@ -4,6 +4,7 @@
     <string name="id_app_in_admob" translatable="false">ca-app-pub-9590734892113562~3127396935</string>
     <string name="banner_ad_unit_id" translatable="false">ca-app-pub-9590734892113562/7557596534</string>
     <string name="interstitial_ad_unit_id" translatable="false">ca-app-pub-9590734892113562/1511062937</string>
+    <string name="video_ad_unit_id" translatable="false">ca-app-pub-9590734892113562/2094328931</string>
 
     <string name="set_wallpaper">Set</string>
     <string name="successful_set_wallpaper">Wallpapers successfully installed!</string>
