@@ -25,6 +25,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.aleksandr.nikitin.kittens_wallpaper.PageFragmentWithPremiumWallpaper.onShowVideoAdListener;
@@ -61,9 +62,10 @@ public class MainActivity extends FragmentActivity implements onShowVideoAdListe
     private PagerAdapter pagerAdapter;
     //boolean isPagerWithShadow;
 
-    private LinearLayout linImg;
-    private ImageView img;
-    private Animation animRotate;
+    //private LinearLayout linImg;
+    //private ImageView img;
+    private ProgressBar progressBar;
+    //private Animation animRotate;
     private Animation animAlphaVilible;
     private Animation animAlphaInvilible;
     //Animation animFadeIn;
@@ -90,9 +92,11 @@ public class MainActivity extends FragmentActivity implements onShowVideoAdListe
         isShowFullscreenAds = false;
         isDoNewRequestForInterstitial = false;
 
-        linImg = (LinearLayout) findViewById(R.id.linImg);
-        img = (ImageView) findViewById(R.id.imageView);
-        animRotate = AnimationUtils.loadAnimation(this, R.anim.rotation_proccess);
+        //linImg = (LinearLayout) findViewById(R.id.linImg);
+        //img = (ImageView) findViewById(R.id.imageView);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.INVISIBLE);
+        //animRotate = AnimationUtils.loadAnimation(this, R.anim.rotation_proccess);
         animAlphaVilible = AnimationUtils.loadAnimation(this, R.anim.alpha_vilible);
         animAlphaInvilible = AnimationUtils.loadAnimation(this, R.anim.alpha_invilible);
         //animFadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in);
@@ -101,12 +105,13 @@ public class MainActivity extends FragmentActivity implements onShowVideoAdListe
         animAlphaVilible.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
-                img.startAnimation(animRotate);
+                //img.startAnimation(animRotate);
             }
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                linImg.setVisibility(View.VISIBLE);
+                //linImg.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -123,8 +128,9 @@ public class MainActivity extends FragmentActivity implements onShowVideoAdListe
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                linImg.setVisibility(View.INVISIBLE);
-                img.clearAnimation();
+                progressBar.setVisibility(View.INVISIBLE);
+                //linImg.setVisibility(View.INVISIBLE);
+                //img.clearAnimation();
             }
 
             @Override
@@ -578,7 +584,8 @@ public class MainActivity extends FragmentActivity implements onShowVideoAdListe
             super.onPreExecute();
             //buttonSetEnabled(btnExit, false);
             buttonSetEnabled(btnSetWallPaper, false);
-            linImg.startAnimation(animAlphaVilible);
+            progressBar.startAnimation(animAlphaVilible);
+            //linImg.startAnimation(animAlphaVilible);
         }
 
         @Override
@@ -595,7 +602,8 @@ public class MainActivity extends FragmentActivity implements onShowVideoAdListe
             } else {
                 buttonSetEnabled(btnSetWallPaper, true);
             }
-            linImg.startAnimation(animAlphaInvilible);
+            progressBar.startAnimation(animAlphaInvilible);
+            //linImg.startAnimation(animAlphaInvilible);
 
             Context context = getApplicationContext();
             CharSequence text = getResources().getString(R.string.successful_set_wallpaper);

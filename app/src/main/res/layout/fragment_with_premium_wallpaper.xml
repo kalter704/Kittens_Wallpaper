@@ -39,6 +39,17 @@
             android:text="@string/watch" />
     </LinearLayout>
 
+    <ProgressBar
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar"
+        android:visibility="invisible"
+        android:layout_below="@+id/linLayoutWithTextAndBtn"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp" />
+
+    <!--
     <LinearLayout
         android:id="@+id/linImg"
         android:layout_width="wrap_content"
@@ -57,5 +68,5 @@
             android:visibility="invisible" />
 
     </LinearLayout>
-
+-->
 </RelativeLayout>

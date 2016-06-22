@@ -13,6 +13,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 
 public class PageFragmentWithPremiumWallpaper extends Fragment {
     static final String ARGUMENT_IMAGE_ID = "arg_image_id";
@@ -24,8 +25,9 @@ public class PageFragmentWithPremiumWallpaper extends Fragment {
 
     LinearLayout linLayoutWithTextAndBtn;
 
-    LinearLayout linImg;
-    ImageView imgRotate;
+    //LinearLayout linImg;
+    //ImageView imgRotate;
+    ProgressBar progressBar;
     Animation animRotate;
     Animation animAlphaVilible;
     Animation animAlphaInvilible;
@@ -48,19 +50,20 @@ public class PageFragmentWithPremiumWallpaper extends Fragment {
         numberOfImg = getArguments().getInt(ARGUMENT_IMAGE_NUMBER);
         statePicture = PremiumWallpaper.CLOSED_PREMIUM_WALLPAPER;
 
-        animRotate = AnimationUtils.loadAnimation(getContext(), R.anim.rotation_proccess);
+        //animRotate = AnimationUtils.loadAnimation(getContext(), R.anim.rotation_proccess);
         animAlphaVilible = AnimationUtils.loadAnimation(getContext(), R.anim.alpha_vilible);
         animAlphaInvilible = AnimationUtils.loadAnimation(getContext(), R.anim.alpha_invilible);
 
         animAlphaVilible.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
-                imgRotate.startAnimation(animRotate);
+                //imgRotate.startAnimation(animRotate);
             }
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                linImg.setVisibility(View.VISIBLE);
+                //linImg.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -77,8 +80,9 @@ public class PageFragmentWithPremiumWallpaper extends Fragment {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                linImg.setVisibility(View.INVISIBLE);
-                imgRotate.clearAnimation();
+                progressBar.setVisibility(View.INVISIBLE);
+                //linImg.setVisibility(View.INVISIBLE);
+                //imgRotate.clearAnimation();
             }
 
             @Override
@@ -117,15 +121,17 @@ public class PageFragmentWithPremiumWallpaper extends Fragment {
             img.setAlpha((float) 0.3);
         }
 
-        linImg = (LinearLayout) view.findViewById(R.id.linImg);
-        imgRotate = (ImageView) view.findViewById(R.id.imageRotate);
+        //linImg = (LinearLayout) view.findViewById(R.id.linImg);
+        //imgRotate = (ImageView) view.findViewById(R.id.imageRotate);
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
 
         Button btnWatchVideo = (Button) view.findViewById(R.id.btnWatchVideo);
         btnWatchVideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 linLayoutWithTextAndBtn.setVisibility(View.INVISIBLE);
-                linImg.startAnimation(animAlphaVilible);
+                progressBar.startAnimation(animAlphaVilible);
+                //linImg.startAnimation(animAlphaVilible);
                 showVideoAdListener.onShowVideoAd(numberOfImg);
             }
         });
@@ -133,7 +139,8 @@ public class PageFragmentWithPremiumWallpaper extends Fragment {
 
     public void reset() {
         linLayoutWithTextAndBtn.setVisibility(View.VISIBLE);
-        linImg.startAnimation(animAlphaInvilible);
+        progressBar.startAnimation(animAlphaInvilible);
+        //linImg.startAnimation(animAlphaInvilible);
     }
 
     public void openPicture() {
