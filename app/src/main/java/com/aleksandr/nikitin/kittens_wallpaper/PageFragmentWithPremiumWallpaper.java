@@ -17,9 +17,10 @@ import android.widget.LinearLayout;
 public class PageFragmentWithPremiumWallpaper extends Fragment {
     static final String ARGUMENT_IMAGE_ID = "arg_image_id";
     static final String ARGUMENT_IMAGE_NUMBER = "arg_image_number";
-    static final String ARGUMENT_SET_BUTTON = "arg_set_button";
     int imageId;
     int numberOfImg;
+    int statePicture;
+    ImageView img;
 
     LinearLayout linLayoutWithTextAndBtn;
 
@@ -45,23 +46,8 @@ public class PageFragmentWithPremiumWallpaper extends Fragment {
         super.onCreate(savedInstanceState);
         imageId = getArguments().getInt(ARGUMENT_IMAGE_ID);
         numberOfImg = getArguments().getInt(ARGUMENT_IMAGE_NUMBER);
-    }
+        statePicture = PremiumWallpaper.CLOSED_PREMIUM_WALLPAPER;
 
-    @Override
-    public View onCreateView(LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-
-        View view = inflater.inflate(R.layout.fragment_with_premium_wallpaper, null);
-
-        ImageView imageView = (ImageView) view.findViewById(R.id.imgView);
-        imageView.setImageResource(imageId);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            imageView.setAlpha((float) 0.3);
-        }
-
-        linImg = (LinearLayout) view.findViewById(R.id.linImg);
-        imgRotate = (ImageView) view.findViewById(R.id.imageRotate);
         animRotate = AnimationUtils.loadAnimation(getContext(), R.anim.rotation_proccess);
         animAlphaVilible = AnimationUtils.loadAnimation(getContext(), R.anim.alpha_vilible);
         animAlphaInvilible = AnimationUtils.loadAnimation(getContext(), R.anim.alpha_invilible);
@@ -100,8 +86,39 @@ public class PageFragmentWithPremiumWallpaper extends Fragment {
 
             }
         });
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater,
+                             ViewGroup container, Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.fragment_with_premium_wallpaper, null);
+
+        img = (ImageView) view.findViewById(R.id.imgView);
+        img.setImageResource(imageId);
 
         linLayoutWithTextAndBtn = (LinearLayout) view.findViewById(R.id.linLayoutWithTextAndBtn);
+
+        if(statePicture == PremiumWallpaper.OPENED_PREMIUM_WALLPAPER)
+            onCreateOpenPage();
+        else
+            onCreateClosePage(view);
+
+        return view;
+
+    }
+
+    private void onCreateOpenPage() {
+        linLayoutWithTextAndBtn.setVisibility(View.INVISIBLE);
+    }
+
+    private void onCreateClosePage(View view) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            img.setAlpha((float) 0.3);
+        }
+
+        linImg = (LinearLayout) view.findViewById(R.id.linImg);
+        imgRotate = (ImageView) view.findViewById(R.id.imageRotate);
 
         Button btnWatchVideo = (Button) view.findViewById(R.id.btnWatchVideo);
         btnWatchVideo.setOnClickListener(new View.OnClickListener() {
@@ -112,10 +129,19 @@ public class PageFragmentWithPremiumWallpaper extends Fragment {
                 showVideoAdListener.onShowVideoAd(numberOfImg);
             }
         });
+    }
 
+    public void reset() {
+        linLayoutWithTextAndBtn.setVisibility(View.VISIBLE);
+        linImg.startAnimation(animAlphaInvilible);
+    }
 
-        return view;
-
+    public void openPicture() {
+        linLayoutWithTextAndBtn.setVisibility(View.INVISIBLE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            img.setAlpha((float) 1.0);
+        }
+        statePicture = PremiumWallpaper.OPENED_PREMIUM_WALLPAPER;
     }
 
     public interface onShowVideoAdListener {

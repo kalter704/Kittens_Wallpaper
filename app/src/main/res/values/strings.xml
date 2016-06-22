@@ -10,5 +10,6 @@
     <string name="successful_set_wallpaper">Wallpapers successfully installed!</string>
     <string name="watch">Watch</string>
     <string name="text_for_watch_video">To get the picture look video</string>
+    <string name="text_network_error">To view videos, you must turn on network</string>
 </resources>
 

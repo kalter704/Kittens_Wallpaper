@@ -84,6 +84,16 @@ public class PremiumWallpaper {
         }
     }
 
+    public void setStateByNumber(int i, int state) {
+        if(i == firstPremiumWallpaper) {
+            setStateFirstPremiumWallpaper(state);
+        } else if(i == secondPremiumWallpaper) {
+            setStateSecondPremiumWallpaper(state);
+        } else if(i == thirdPremiumWallpaper) {
+            setStateThirdPremiumWallpaper(state);
+        }
+    }
+
     public void setStateFirstPremiumWallpaper(int stateFirstPremiumWallpaper) {
         this.stateFirstPremiumWallpaper = stateFirstPremiumWallpaper;
         sPref = PreferenceManager.getDefaultSharedPreferences(context);

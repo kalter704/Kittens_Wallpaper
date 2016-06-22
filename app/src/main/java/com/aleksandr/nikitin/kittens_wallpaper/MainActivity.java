@@ -44,6 +44,7 @@ public class MainActivity extends FragmentActivity implements onShowVideoAdListe
     private final String CURRENT_PAGE = "current_page";
 
     private int currentPage;
+    private int pictureToBeOpened;
 
     private int countOfSwipedPages;
     private int numberOfSwipedPages;
@@ -79,6 +80,10 @@ public class MainActivity extends FragmentActivity implements onShowVideoAdListe
         currentPage = sPref.getInt(CURRENT_PAGE, 0);
 
         premiumWallpaper = new PremiumWallpaper(this, Wallpapers.images.length - 3, Wallpapers.images.length - 2, Wallpapers.images.length - 1);
+
+        //premiumWallpaper.setStateByNumber(Wallpapers.images.length - 3, PremiumWallpaper.CLOSED_PREMIUM_WALLPAPER);
+        //premiumWallpaper.setStateByNumber(Wallpapers.images.length - 2, PremiumWallpaper.CLOSED_PREMIUM_WALLPAPER);
+        //premiumWallpaper.setStateByNumber(Wallpapers.images.length - 1, PremiumWallpaper.CLOSED_PREMIUM_WALLPAPER);
 
         countOfSwipedPages = 0;
         numberOfSwipedPages = Wallpapers.images.length - 1;
@@ -310,8 +315,6 @@ public class MainActivity extends FragmentActivity implements onShowVideoAdListe
                     //buttonSetEnabled(pager, true);
                 }
 
-
-
                 /*
                 if(i == 2) {
                     buttonSetEnabled(btnSetWallPaper, false);
@@ -361,40 +364,61 @@ public class MainActivity extends FragmentActivity implements onShowVideoAdListe
         mRewardedVideoAd.setRewardedVideoAdListener(new RewardedVideoAdListener() {
             @Override
             public void onRewarded(RewardItem reward) {
-                Toast.makeText(getApplicationContext(), "onRewarded! currency: " + reward.getType() + "  amount: " +
-                        reward.getAmount(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "onRewarded! currency: " + reward.getType() + "  amount: " + reward.getAmount(), Toast.LENGTH_SHORT).show();
+                premiumWallpaper.setStateByNumber(pictureToBeOpened, PremiumWallpaper.OPENED_PREMIUM_WALLPAPER);
+                PageFragmentWithPremiumWallpaper page = (PageFragmentWithPremiumWallpaper) getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.viewPager + ":" + pictureToBeOpened);
+                if (page != null) {
+                    page.openPicture();
+                }
+                buttonSetEnabled(btnSetWallPaper, true);
             }
 
             @Override
             public void onRewardedVideoAdLeftApplication() {
-                Toast.makeText(getApplicationContext(), "onRewardedVideoAdLeftApplication",
-                        Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "onRewardedVideoAdLeftApplication", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onRewardedVideoAdClosed() {
-                Toast.makeText(getApplicationContext(), "onRewardedVideoAdClosed", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "onRewardedVideoAdClosed", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onRewardedVideoAdFailedToLoad(int errorCode) {
-                Toast.makeText(getApplicationContext(), "onRewardedVideoAdFailedToLoad", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "onRewardedVideoAdFailedToLoad", Toast.LENGTH_SHORT).show();
+                if(errorCode == AdRequest.ERROR_CODE_NETWORK_ERROR) {
+                    NetworkErrorDialog dlg = new NetworkErrorDialog();
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                        dlg.show(getFragmentManager(), "network_error_dlg");
+                    }
+                }
+                PageFragmentWithPremiumWallpaper page = (PageFragmentWithPremiumWallpaper) getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.viewPager + ":" + pictureToBeOpened);
+                if (page != null) {
+                    page.reset();
+                }
+
+
+
             }
 
             @Override
             public void onRewardedVideoAdLoaded() {
-                Toast.makeText(getApplicationContext(), "onRewardedVideoAdLoaded", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "onRewardedVideoAdLoaded", Toast.LENGTH_SHORT).show();
                 mRewardedVideoAd.show();
+                PageFragmentWithPremiumWallpaper page = (PageFragmentWithPremiumWallpaper) getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.viewPager + ":" + pictureToBeOpened);
+                if (page != null) {
+                    page.reset();
+                }
             }
 
             @Override
             public void onRewardedVideoAdOpened() {
-                Toast.makeText(getApplicationContext(), "onRewardedVideoAdOpened", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "onRewardedVideoAdOpened", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onRewardedVideoStarted() {
-                Toast.makeText(getApplicationContext(), "onRewardedVideoStarted", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "onRewardedVideoStarted", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -406,6 +430,7 @@ public class MainActivity extends FragmentActivity implements onShowVideoAdListe
         super.onResume();
         mRewardedVideoAd.resume(this);
         pager.setCurrentItem(currentPage);
+        //UnityAds.changeActivity(this);
     }
 
     @Override
@@ -425,26 +450,6 @@ public class MainActivity extends FragmentActivity implements onShowVideoAdListe
         ed.commit();
     }
 
-    /*
-    private void setShadowForPager(boolean isShadow) {
-        Log.d("QWERTY", "setShadowForPager");
-        Log.d("QWERTY", "isShadow = " + String.valueOf(isShadow));
-        Log.d("QWERTY", "isPagerWithShadow = " + String.valueOf(isPagerWithShadow));
-        if(isShadow != isPagerWithShadow) {
-            //pager.clearAnimation();
-            isPagerWithShadow = isShadow;
-            if(!isShadow) {
-                pager.startAnimation(animFadeIn);
-                Log.d("QWERTY", "ViewPager = do not shadow");
-            } else {
-                pager.startAnimation(animFadeOut);
-                //pager.setAnimation(animFadeIn);
-                Log.d("QWERTY", "ViewPager = do shadow");
-            }
-        }
-    }
-    */
-
     private void requestNewInterstitial() {
         mInterstitialAd.loadAd(getRequestForAds());
     }
@@ -455,8 +460,7 @@ public class MainActivity extends FragmentActivity implements onShowVideoAdListe
 
     private AdRequest getRequestForAds() {
 
-        //return new AdRequest.Builder().build();
-
+        return new AdRequest.Builder().build();
 
         // EMULATOR
         /*
@@ -466,11 +470,11 @@ public class MainActivity extends FragmentActivity implements onShowVideoAdListe
                 .build();
         */
         // Highscreen ICE 2
-
+/*
         return new AdRequest.Builder()
                 .addTestDevice("3E0DC5B8245C21520131AB58878FDCE7")
                 .build();
-
+*/
         // HUAWEI
         /*
         return new AdRequest.Builder()
@@ -521,7 +525,7 @@ public class MainActivity extends FragmentActivity implements onShowVideoAdListe
 
     @Override
     public void onShowVideoAd(int i) {
-        pager.setEnabled(false);   // ????????????????????????/
+        pictureToBeOpened = i;
         requestNewRewardedVideoAd();
         //buttonSetEnabled(btnSetWallPaper, true);
     }
