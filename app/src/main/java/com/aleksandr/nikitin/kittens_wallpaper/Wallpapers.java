@@ -8,10 +8,9 @@ public class Wallpapers {
             R.drawable.img3,
             R.drawable.img4,
             R.drawable.img5,
-            R.drawable.img6
-            //,
+            R.drawable.img6,
             //R.drawable.img7,
-            /*
+
             R.drawable.img8,
             R.drawable.img9,
             R.drawable.img10,
@@ -62,12 +61,12 @@ public class Wallpapers {
             R.drawable.img57,
             R.drawable.img58,
             R.drawable.img59,
-            */
+
 
             //R.drawable.img60,
             //R.drawable.img61,
 
-            /*
+
             R.drawable.img62,
             R.drawable.img63,
             R.drawable.img64,
@@ -83,7 +82,7 @@ public class Wallpapers {
             R.drawable.img74,
             R.drawable.img75,
             R.drawable.img76
-            */
+
     };
 
 }

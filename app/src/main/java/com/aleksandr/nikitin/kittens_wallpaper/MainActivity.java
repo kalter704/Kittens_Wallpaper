@@ -65,6 +65,7 @@ public class MainActivity extends FragmentActivity implements onShowVideoAdListe
     //private LinearLayout linImg;
     //private ImageView img;
     private ProgressBar progressBar;
+    private ProgressBar progressBarShowPosition;
     //private Animation animRotate;
     private Animation animAlphaVilible;
     private Animation animAlphaInvilible;
@@ -96,6 +97,11 @@ public class MainActivity extends FragmentActivity implements onShowVideoAdListe
         //img = (ImageView) findViewById(R.id.imageView);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         progressBar.setVisibility(View.INVISIBLE);
+
+        progressBarShowPosition = (ProgressBar) findViewById(R.id.progressBar2);
+        progressBarShowPosition.setMax(Wallpapers.images.length - 1);
+        progressBarShowPosition.setProgress(currentPage);
+
         //animRotate = AnimationUtils.loadAnimation(this, R.anim.rotation_proccess);
         animAlphaVilible = AnimationUtils.loadAnimation(this, R.anim.alpha_vilible);
         animAlphaInvilible = AnimationUtils.loadAnimation(this, R.anim.alpha_invilible);
@@ -296,6 +302,7 @@ public class MainActivity extends FragmentActivity implements onShowVideoAdListe
 
             @Override
             public void onPageSelected(int i) {
+                progressBarShowPosition.setProgress(i);
                 //Toast.makeText(getApplicationContext(), "i = " + String.valueOf(i), Toast.LENGTH_SHORT).show();
                 if(premiumWallpaper.equals(i)) {
                     if(premiumWallpaper.getStateByNumber(i) == PremiumWallpaper.OPENED_PREMIUM_WALLPAPER) {
@@ -444,16 +451,21 @@ public class MainActivity extends FragmentActivity implements onShowVideoAdListe
         super.onPause();
         mRewardedVideoAd.pause(this);
         currentPage = pager.getCurrentItem();
+        SharedPreferences sPref = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor ed =  sPref.edit();
+        ed.putInt(CURRENT_PAGE, pager.getCurrentItem());
+        ed.commit();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         mRewardedVideoAd.destroy(this);
-        SharedPreferences sPref = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor ed =  sPref.edit();
-        ed.putInt(CURRENT_PAGE, pager.getCurrentItem());
-        ed.commit();
     }
 
     private void requestNewInterstitial() {
