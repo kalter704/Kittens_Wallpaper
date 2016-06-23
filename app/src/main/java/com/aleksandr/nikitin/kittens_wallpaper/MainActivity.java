@@ -409,9 +409,6 @@ public class MainActivity extends FragmentActivity implements onShowVideoAdListe
                 if (page != null) {
                     page.reset();
                 }
-
-
-
             }
 
             @Override
