@@ -9,7 +9,7 @@
     <string name="set_wallpaper">Set</string>
     <string name="successful_set_wallpaper">Wallpapers successfully installed!</string>
     <string name="watch">Watch</string>
-    <string name="text_for_watch_video">To get the picture look video</string>
-    <string name="text_network_error">To view videos turn on network</string>
+    <string name="text_for_watch_video">To set this wallpaper just watch a video</string>
+    <string name="text_network_error">To watch a video you should be connected to the internet</string>
 </resources>
 

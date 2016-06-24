@@ -82,7 +82,12 @@ public class MainActivity extends FragmentActivity implements onShowVideoAdListe
         SharedPreferences sPref = PreferenceManager.getDefaultSharedPreferences(this);
         currentPage = sPref.getInt(CURRENT_PAGE, 0);
 
-        premiumWallpaper = new PremiumWallpaper(this, Wallpapers.images.length - 3, Wallpapers.images.length - 2, Wallpapers.images.length - 1);
+        premiumWallpaper = new PremiumWallpaper(this);
+        premiumWallpaper.add(Wallpapers.images.length - 5);
+        premiumWallpaper.add(Wallpapers.images.length - 4);
+        premiumWallpaper.add(Wallpapers.images.length - 3);
+        premiumWallpaper.add(Wallpapers.images.length - 2);
+        premiumWallpaper.add(Wallpapers.images.length - 1);
 
         //premiumWallpaper.setStateByNumber(Wallpapers.images.length - 3, PremiumWallpaper.CLOSED_PREMIUM_WALLPAPER);
         //premiumWallpaper.setStateByNumber(Wallpapers.images.length - 2, PremiumWallpaper.CLOSED_PREMIUM_WALLPAPER);
