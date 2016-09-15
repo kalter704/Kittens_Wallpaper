@@ -11,5 +11,12 @@
     <string name="watch">Watch</string>
     <string name="text_for_watch_video">To set this wallpaper just watch a video</string>
     <string name="text_network_error">To watch a video you should be connected to the internet</string>
+
+    <string name="drawer_item_wallpaper">Wallpaper</string>
+    <string name="drawer_item_our_applications">Our applications</string>
+    <string name="drawer_item_pretty_owls">Pretty owls</string>
+    <string name="drawer_item_pretty_puppies">Pretty puppies</string>
+    <string name="drawer_item_like">Like</string>
+
 </resources>
 
