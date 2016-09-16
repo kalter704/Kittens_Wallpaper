@@ -109,7 +109,7 @@ public class MainActivity extends FragmentActivity implements PageFragmentWithPr
                 .addDrawerItems(
                         new PrimaryDrawerItem().withName(R.string.drawer_item_wallpaper).withIcon(R.drawable.ic_wallpaper).withIdentifier(DRAWER_ID_WALLPAPER),
                         new SectionDrawerItem().withName(R.string.drawer_item_our_applications),
-                        new PrimaryDrawerItem().withName(R.string.drawer_item_pretty_owls).withIcon(R.drawable.ic_pretty_kittens).withIdentifier(DRAWER_ID_PRETTY_OWLS),
+                        new PrimaryDrawerItem().withName(R.string.drawer_item_pretty_owls).withIcon(R.drawable.ic_pretty_owls).withIdentifier(DRAWER_ID_PRETTY_OWLS),
                         new PrimaryDrawerItem().withName(R.string.drawer_item_pretty_puppies).withIcon(R.drawable.ic_pretty_puppies).withIdentifier(DRAWER_ID_PRETTY_PUPPIES),
                         new DividerDrawerItem(),
                         new PrimaryDrawerItem().withName(R.string.drawer_item_like).withIcon(R.drawable.ic_like).withIdentifier(DRAWER_ID_PRETTY_KITTENS)
