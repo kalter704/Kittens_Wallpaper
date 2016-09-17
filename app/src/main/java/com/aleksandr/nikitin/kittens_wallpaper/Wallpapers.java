@@ -15,6 +15,9 @@ public class Wallpapers {
             R.drawable.img9,
             R.drawable.img10,
             R.drawable.img11,
+
+            R.drawable.imgreward1,      // 6
+
             R.drawable.img12,
             //R.drawable.img13,
             R.drawable.img14,
@@ -50,6 +53,11 @@ public class Wallpapers {
             R.drawable.img42,
             */
             R.drawable.img43,
+
+
+            R.drawable.imgreward2,      // 22
+
+
             /*
             R.drawable.img44,
             R.drawable.img45,
@@ -93,6 +101,9 @@ public class Wallpapers {
             R.drawable.img72,
             R.drawable.img73,
             R.drawable.img74,
+
+            R.drawable.imgreward3,      // 31
+
             R.drawable.img75,
             R.drawable.img76,
             R.drawable.img77,
@@ -115,6 +126,8 @@ public class Wallpapers {
 
             R.drawable.img91,
             R.drawable.img92,
+
+            R.drawable.imgreward4,      // 50
 
 
             R.drawable.img93,
@@ -149,9 +162,12 @@ public class Wallpapers {
             R.drawable.img114,
             R.drawable.img115,
             R.drawable.img116,
+
+            R.drawable.imgreward5,      // 74
+
             R.drawable.img117,
             R.drawable.img118,
-            R.drawable.img119,
+            R.drawable.img119
             //R.drawable.img120,
             //R.drawable.img121,
             /*
@@ -211,11 +227,7 @@ public class Wallpapers {
             R.drawable.img160,
             */
 
-            R.drawable.imgreward1,
-            R.drawable.imgreward2,
-            R.drawable.imgreward3,
-            R.drawable.imgreward4,
-            R.drawable.imgreward5
+
 
     };
 
